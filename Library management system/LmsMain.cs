@@ -1,6 +1,6 @@
 namespace Library_management_system
 {
-    internal static class Program
+    internal static class LmsMain
     {
         /// <summary>
         ///  The main entry point for the application.
