@@ -84,6 +84,7 @@
             LoginButton.TabIndex = 4;
             LoginButton.Text = "登录";
             LoginButton.UseVisualStyleBackColor = true;
+            LoginButton.Click += LoginButton_Click;
             // 
             // Sign_inButton
             // 
