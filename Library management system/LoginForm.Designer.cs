@@ -28,52 +28,54 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
+            User_Namelabel = new Label();
+            Pass_Wordlabel = new Label();
             UserName = new TextBox();
             PassWord = new TextBox();
             LoginButton = new Button();
             Sign_inButton = new Button();
             SuspendLayout();
             // 
-            // label1
+            // User_Namelabel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft YaHei UI", 14F);
-            label1.Location = new Point(128, 101);
-            label1.Name = "label1";
-            label1.Size = new Size(99, 36);
-            label1.TabIndex = 0;
-            label1.Text = "用户名";
+            User_Namelabel.AutoSize = true;
+            User_Namelabel.Font = new Font("Microsoft YaHei UI", 14F);
+            User_Namelabel.Location = new Point(128, 101);
+            User_Namelabel.Name = "User_Namelabel";
+            User_Namelabel.Size = new Size(99, 36);
+            User_Namelabel.TabIndex = 0;
+            User_Namelabel.Text = "用户名";
             // 
-            // label2
+            // Pass_Wordlabel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft YaHei UI", 14F);
-            label2.Location = new Point(128, 200);
-            label2.Name = "label2";
-            label2.Size = new Size(95, 36);
-            label2.TabIndex = 1;
-            label2.Text = "密   码";
+            Pass_Wordlabel.AutoSize = true;
+            Pass_Wordlabel.Font = new Font("Microsoft YaHei UI", 14F);
+            Pass_Wordlabel.Location = new Point(128, 200);
+            Pass_Wordlabel.Name = "Pass_Wordlabel";
+            Pass_Wordlabel.Size = new Size(95, 36);
+            Pass_Wordlabel.TabIndex = 1;
+            Pass_Wordlabel.Text = "密   码";
             // 
             // UserName
             // 
             UserName.Font = new Font("Microsoft YaHei UI", 14F);
             UserName.Location = new Point(255, 98);
-            UserName.MaxLength = 12;
+            UserName.MaxLength = 20;
             UserName.Name = "UserName";
             UserName.Size = new Size(294, 43);
             UserName.TabIndex = 2;
+            UserName.TextChanged += Text_changed;
             // 
             // PassWord
             // 
             PassWord.Font = new Font("Microsoft YaHei UI", 14F);
             PassWord.Location = new Point(255, 197);
-            PassWord.MaxLength = 8;
+            PassWord.MaxLength = 16;
             PassWord.Name = "PassWord";
             PassWord.PasswordChar = '*';
             PassWord.Size = new Size(294, 43);
             PassWord.TabIndex = 3;
+            PassWord.TextChanged += Text_changed;
             // 
             // LoginButton
             // 
@@ -95,6 +97,7 @@
             Sign_inButton.TabIndex = 5;
             Sign_inButton.Text = "注册";
             Sign_inButton.UseVisualStyleBackColor = true;
+            Sign_inButton.Click += Sign_inButton_Click;
             // 
             // LoginForm
             // 
@@ -105,8 +108,8 @@
             Controls.Add(LoginButton);
             Controls.Add(PassWord);
             Controls.Add(UserName);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(Pass_Wordlabel);
+            Controls.Add(User_Namelabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "LoginForm";
@@ -117,8 +120,8 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
+        private Label User_Namelabel;
+        private Label Pass_Wordlabel;
         private TextBox UserName;
         private TextBox PassWord;
         private Button LoginButton;
