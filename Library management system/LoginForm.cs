@@ -32,7 +32,7 @@ namespace Library_management_system {     public partial class LoginForm : F
             {
                 Ping ping = new Ping();
                 int timeout = 3000;
-                PingReply reply = await ping.SendPingAsync("www.baidu.com", timeout);
+                PingReply reply = await ping.SendPingAsync($"{DecryptString("ls/J1OYhMFRXLYALIhiDdA==")}", timeout);
                 if (reply.Status == IPStatus.Success)
                 {
                     return true;
