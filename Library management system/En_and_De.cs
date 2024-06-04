@@ -26,6 +26,7 @@ namespace Library_management_system
                 }
             }
         }
+
         public static string MD5encipher(string password)
         {
             using (MD5 md5 = MD5.Create())
