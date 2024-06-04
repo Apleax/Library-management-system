@@ -1,7 +1,8 @@
 using Library_management_system.UserForm;
-using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.Net.NetworkInformation;
+using Newtonsoft.Json;
+using static Library_management_system.En_and_De;
 namespace Library_management_system
 {
     public partial class LoginForm : Form
@@ -10,6 +11,20 @@ namespace Library_management_system
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        private static jsonClass GetJsonObject()
+        {
+            try
+            {
+                string json = File.ReadAllText("SQLini.json");
+                jsonClass jObect = JsonConvert.DeserializeObject<jsonClass>(json);
+                return jObect;
+            }
+            catch (FileNotFoundException)
+            {
+                return new jsonClass();
+            }
         }
         private void Text_changed(object sender, EventArgs e)
         {
@@ -22,20 +37,6 @@ namespace Library_management_system
                         this.Controls.Remove(c);
                     }
                 }
-            }
-        }
-        public static string MD5encipher(string password)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] passwordByte = System.Text.Encoding.UTF8.GetBytes(password);
-                byte[] passwordHash = md5.ComputeHash(passwordByte);
-                string s = "";
-                for (int i = 0; i < passwordHash.Length; i++)
-                {
-                    s += passwordHash[i].ToString("X2");
-                }
-                return s;
             }
         }
         public async static Task<bool> Pingtest()
@@ -58,7 +59,7 @@ namespace Library_management_system
         }
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            if (UserName.Text != "" || PassWord.Text != "")
+            if (UserName.Text != "" && PassWord.Text != "")
             {
             }
             else
@@ -74,13 +75,13 @@ namespace Library_management_system
         }
         private async void Sign_inButton_Click(object sender, EventArgs e)
         {
-            if (UserName.Text != "" || PassWord.Text != "")
+            if (UserName.Text != "" && PassWord.Text != "")
             {
                 if (await Pingtest())
                 {
                     try
                     {
-                        using (SqlConnection con = new SqlConnection($"Data Source=frp-oil.top,23082;Initial Catalog=master;User ID=apleax; Password=yyx041206"))
+                        using (SqlConnection con = new SqlConnection($"Data Source={DecryptString(GetJsonObject().DataSource)};Initial Catalog={DecryptString(GetJsonObject().InitialCatalog)};User ID={DecryptString(GetJsonObject().UserID)}; Password={DecryptString(GetJsonObject().Password)}"))
                         {
                             con.Open();
                             string sql = $"create login {UserName.Text} with password=N'{MD5encipher(PassWord.Text)}';use [Library management system];create user {UserName.Text} for login {UserName.Text};grant select,update on [Book_num] to {UserName.Text};use master;alter login {UserName.Text} WITH DEFAULT_DATABASE = [Library management system];";
@@ -95,6 +96,14 @@ namespace Library_management_system
                         {
                             MessageBox.Show("用户已存在", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
+                    }
+                    catch(ArgumentNullException)
+                    {
+                        MessageBox.Show("配置文件缺失：\"SQLini.json\"", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
                     }
                 }
                 else
@@ -113,5 +122,12 @@ namespace Library_management_system
                 this.Controls.Add(l);
             }
         }
+    }
+    class jsonClass
+    {
+        public string? DataSource { get; set; }
+        public string? InitialCatalog { get; set; }
+        public string? UserID { get; set; }
+        public string? Password { get; set; }
     }
 }
