@@ -1,23 +1,10 @@
-using Library_management_system.UserForm;
-using System.Data.SqlClient;
-using System.Net.NetworkInformation;
+using Library_management_system.UserForm; using System.Data.SqlClient; using System.Net.NetworkInformation;
 using Newtonsoft.Json;
 using static Library_management_system.En_and_De;
-namespace Library_management_system
-{
-    public partial class LoginForm : Form
-    {
-        public LoginForm()
-        {
-            InitializeComponent();
-            this.StartPosition = FormStartPosition.CenterScreen;
-        }
-
+namespace Library_management_system {     public partial class LoginForm : Form     {         public LoginForm()         {             InitializeComponent();             this.StartPosition = FormStartPosition.CenterScreen;         } 
         private static jsonClass GetJsonObject()
-        {
-            try
-            {
-                string json = File.ReadAllText("SQLini.json");
+        {             try
+            {                 string json = File.ReadAllText("SQLini.json");
                 jsonClass jObect = JsonConvert.DeserializeObject<jsonClass>(json);
                 return jObect;
             }
@@ -57,22 +44,8 @@ namespace Library_management_system
                 return false;
             }
         }
-        private void LoginButton_Click(object sender, EventArgs e)
-        {
-            if (UserName.Text != "" && PassWord.Text != "")
-            {
-            }
-            else
-            {
-                Label l = new Label();
-                l.Text = "请输入完整用户名或密码";
-                l.Location = new Point(255, 250);
-                l.AutoSize = true;
-                l.Name = "ErrorLabel";
-                l.ForeColor = Color.Red;
-                this.Controls.Add(l);
-            }
-        }
+        private void LoginButton_Click(object sender, EventArgs e)         {             if (UserName.Text != "" && PassWord.Text != "")
+            {             }             else             {                 Label l = new Label();                 l.Text = "请输入完整用户名或密码";                 l.Location = new Point(255, 250);                 l.AutoSize = true;                 l.Name = "ErrorLabel";                 l.ForeColor = Color.Red;                 this.Controls.Add(l);             }         }
         private async void Sign_inButton_Click(object sender, EventArgs e)
         {
             if (UserName.Text != "" && PassWord.Text != "")
@@ -96,8 +69,7 @@ namespace Library_management_system
                         {
                             MessageBox.Show("用户已存在", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                    }
-                    catch(ArgumentNullException)
+                    }                     catch(ArgumentNullException)
                     {
                         MessageBox.Show("配置文件缺失：\"SQLini.json\"", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -129,5 +101,4 @@ namespace Library_management_system
         public string? InitialCatalog { get; set; }
         public string? UserID { get; set; }
         public string? Password { get; set; }
-    }
-}
+    } } 
