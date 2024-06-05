@@ -1,19 +1,6 @@
-using Library_management_system.UserForm; using System.Data.SqlClient; using System.Net.NetworkInformation;
-using Newtonsoft.Json;
-using static Library_management_system.En_and_De;
-namespace Library_management_system {     public partial class LoginForm : Form     {         public LoginForm()         {             InitializeComponent();             this.StartPosition = FormStartPosition.CenterScreen;         } 
-        private static jsonClass GetJsonObject()
-        {             try
-            {                 string json = File.ReadAllText("SQLini.json");
-                jsonClass jObect = JsonConvert.DeserializeObject<jsonClass>(json);
-                return jObect;
-            }
-            catch (FileNotFoundException e)
-            {
-                MessageBox.Show(e.Message);
-                return new jsonClass();
-            }
-        }
+using Library_management_system.UserForm; using System.Data.SqlClient;
+using static Library_management_system.Login_Sign_in;
+namespace Library_management_system {     public partial class LoginForm : Form     {         public LoginForm()         {             InitializeComponent();             this.StartPosition = FormStartPosition.CenterScreen;         }
         private void Text_changed(object sender, EventArgs e)
         {
             if (UserName.Text != "" || PassWord.Text != "")
@@ -25,24 +12,6 @@ namespace Library_management_system {     public partial class LoginForm : F
                         this.Controls.Remove(c);
                     }
                 }
-            }
-        }
-        public async static Task<bool> Pingtest()
-        {
-            try
-            {
-                Ping ping = new Ping();
-                int timeout = 3000;
-                PingReply reply = await ping.SendPingAsync($"{DecryptString("ls/J1OYhMFRXLYALIhiDdA==")}", timeout);
-                if (reply.Status == IPStatus.Success)
-                {
-                    return true;
-                }
-                return false;
-            }
-            catch (PingException)
-            {
-                return false;
             }
         }
         private void LoginButton_Click(object sender, EventArgs e)         {             if (UserName.Text != "" && PassWord.Text != "")
@@ -81,7 +50,7 @@ namespace Library_management_system {     public partial class LoginForm : F
                 }
                 else
                 {
-                    MessageBox.Show("网络连接失败，请检查网络连接", "连接错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("无法连接至远程服务器", "连接错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -95,11 +64,4 @@ namespace Library_management_system {     public partial class LoginForm : F
                 this.Controls.Add(l);
             }
         }
-    }
-    class jsonClass
-    {
-        public string? DataSource { get; set; }
-        public string? InitialCatalog { get; set; }
-        public string? UserID { get; set; }
-        public string? Password { get; set; }
     } } 
