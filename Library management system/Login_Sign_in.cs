@@ -1,7 +1,9 @@
-﻿using System.Security.Cryptography;
+﻿using Newtonsoft.Json;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 namespace Library_management_system
 {
-    internal class En_and_De
+    internal class Login_Sign_in
     {
         public static string DecryptString(string cipherText)
         {
@@ -64,5 +66,46 @@ namespace Library_management_system
                 return s;
             }
         }
+        public async static Task<bool> Pingtest()
+        {
+            try
+            {
+                Ping ping = new Ping();
+                int timeout = 3000;
+                PingReply reply = await ping.SendPingAsync($"{DecryptString(GetJsonObject().PingIp)}", timeout);
+                if (reply.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (PingException)
+            {
+                return false;
+            }
+        }
+        public static jsonClass GetJsonObject()
+        {
+            try
+            {
+                string json = File.ReadAllText("SQLini.json");
+                jsonClass jObect = JsonConvert.DeserializeObject<jsonClass>(json);
+                return jObect;
+            }
+            catch (FileNotFoundException e)
+            {
+                MessageBox.Show(e.Message);
+                return new jsonClass();
+            }
+        }
+        public class jsonClass
+        {
+            public string? DataSource { get; set; }
+            public string? InitialCatalog { get; set; }
+            public string? UserID { get; set; }
+            public string? Password { get; set; }
+            public string? PingIp { get; set; }
+        }
     }
+
 }
