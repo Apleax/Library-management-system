@@ -8,8 +8,9 @@ namespace Library_management_system {     public partial class LoginForm : F
                 jsonClass jObect = JsonConvert.DeserializeObject<jsonClass>(json);
                 return jObect;
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
+                MessageBox.Show(e.Message);
                 return new jsonClass();
             }
         }
@@ -69,9 +70,9 @@ namespace Library_management_system {     public partial class LoginForm : F
                         {
                             MessageBox.Show("用户已存在", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                    }                     catch(ArgumentNullException)
+                    }                     catch (ArgumentNullException ex)
                     {
-                        MessageBox.Show("配置文件缺失：\"SQLini.json\"", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (Exception ex)
                     {
