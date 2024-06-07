@@ -28,6 +28,7 @@ namespace Library_management_system
                 }
             }
         }
+
         public static string EncryptString(string plainText)
         {
             byte[] key = new byte[16];
