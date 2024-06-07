@@ -111,9 +111,11 @@
             Controls.Add(Pass_Wordlabel);
             Controls.Add(User_Namelabel);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            KeyPreview = true;
             MaximizeBox = false;
             Name = "LoginForm";
             Text = "图书馆管理系统";
+            KeyUp += LoginForm_KeyUp;
             ResumeLayout(false);
             PerformLayout();
         }
