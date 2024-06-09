@@ -23,5 +23,10 @@ namespace Library_management_system.UserForm
             DateTime now = DateTime.Now;
             this.Timenow.Text = now.ToString("HH:mm");
         }
+
+        private void UserFrom_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }
