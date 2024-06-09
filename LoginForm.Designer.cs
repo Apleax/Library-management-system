@@ -34,6 +34,8 @@
             PassWord = new TextBox();
             LoginButton = new Button();
             Sign_inButton = new Button();
+            ChangePassWord = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // User_Namelabel
@@ -99,11 +101,33 @@
             Sign_inButton.UseVisualStyleBackColor = true;
             Sign_inButton.Click += Sign_inButton_Click;
             // 
+            // ChangePassWord
+            // 
+            ChangePassWord.Location = new Point(453, 260);
+            ChangePassWord.Name = "ChangePassWord";
+            ChangePassWord.Size = new Size(96, 34);
+            ChangePassWord.TabIndex = 6;
+            ChangePassWord.Text = "修改密码";
+            ChangePassWord.UseVisualStyleBackColor = true;
+            ChangePassWord.Click += ChangePassWord_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = SystemColors.Control;
+            label1.Location = new Point(352, 265);
+            label1.Name = "label1";
+            label1.Size = new Size(104, 24);
+            label1.TabIndex = 7;
+            label1.Text = "忘记密码？:";
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(671, 454);
+            Controls.Add(label1);
+            Controls.Add(ChangePassWord);
             Controls.Add(Sign_inButton);
             Controls.Add(LoginButton);
             Controls.Add(PassWord);
@@ -128,5 +152,7 @@
         private TextBox PassWord;
         private Button LoginButton;
         private Button Sign_inButton;
+        private Button ChangePassWord;
+        private Label label1;
     }
 }
