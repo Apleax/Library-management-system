@@ -14,7 +14,7 @@ namespace Library_management_system.AdminForm
             this.StartPosition = FormStartPosition.CenterScreen;
             this.sql = sql;
         }
-        private async void AdminForm_Load(object sender, EventArgs e)
+        private void AdminForm_Load(object sender, EventArgs e)
         {
             Timer timer = new Timer();
             timer.Interval = 1000;
@@ -42,26 +42,33 @@ namespace Library_management_system.AdminForm
                     using (SqlConnection con = new SqlConnection(sql))
                     {
                         con.Open();
-                        SqlCommand cmd = new SqlCommand("USE [Library management system];SELECT * FROM Book", con);
+                        SqlCommand cmd = new SqlCommand($"USE [Library management system];DECLARE @Page INT;DECLARE @PageSize INT = 14;DECLARE @PageNumber INT = {Int32.Parse(label1.Text)};DECLARE @TotalRecords INT;DECLARE @TotalPages INT;SELECT @TotalRecords = COUNT(*) FROM Book;SET @TotalPages = CEILING(CONVERT(FLOAT, @TotalRecords) / @PageSize);IF @PageNumber < @TotalPages BEGIN SELECT * FROM Book ORDER BY Bookname OFFSET (@PageNumber - 1) * @PageSize ROWS FETCH NEXT @PageSize ROWS ONLY;END ELSE IF @PageNumber = @TotalPages BEGIN SELECT * FROM Book ORDER BY Bookname OFFSET (@PageNumber - 1) * @PageSize ROWS FETCH NEXT @TotalRecords - ((@TotalPages - 1) * @PageSize) ROWS ONLY;END ELSE IF @PageNumber = @TotalPages BEGIN SELECT * FROM Book ORDER BY Bookname OFFSET (@PageNumber - 1) * @PageSize ROWS FETCH NEXT @TotalRecords - ((@TotalPages - 1) * @PageSize) ROWS ONLY;END ELSE IF @PageNumber > @TotalPages BEGIN SET @Page = 1;SELECT @Page AS resule; END", con);
                         SqlDataReader sqlData = cmd.ExecuteReader();
-                        Result.Items.Clear();
-                        while (sqlData.Read())
+                        sqlData.Read();
+                        if (sqlData.GetValue(0).ToString() != "1")
                         {
-                            List<string> book = new List<string>();
-                            for (int i = 0; i < sqlData.FieldCount; i++)
+                            Result.Items.Clear();
+                            while (sqlData.Read())
                             {
-                                book.Add(sqlData.GetValue(i).ToString());
+                                List<string> book = new List<string>();
+                                for (int i = 0; i < sqlData.FieldCount; i++)
+                                {
+                                    book.Add(sqlData.GetValue(i).ToString());
+                                }
+                                Result.Items.Add(new ListViewItem(book.ToArray()));
                             }
-                            Result.Items.Add(new ListViewItem(book.ToArray()));
+                        }
+                        else
+                        {
+                            label1.Text = (Int32.Parse(label1.Text) - 1).ToString();
+                            MessageBox.Show("已经是最后一页了", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
+
                 }
                 catch (SqlException ex)
                 {
-                    if (ex.Number == 18456)
-                    {
-                        MessageBox.Show("用户名或密码错误", "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show(ex.Message, "登录失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception ex)
                 {
@@ -71,6 +78,25 @@ namespace Library_management_system.AdminForm
             else
             {
                 MessageBox.Show("无法连接至远程服务器", "连接错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DownPage_Click(object sender, EventArgs e)
+        {
+            label1.Text = (Int32.Parse(label1.Text) + 1).ToString();
+            SelectButton_Click(sender, e);
+        }
+
+        private void UpPage_Click(object sender, EventArgs e)
+        {
+            if (Int32.Parse(label1.Text) - 1 > 0)
+            {
+                label1.Text = (Int32.Parse(label1.Text) - 1).ToString();
+                SelectButton_Click(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("已经是第一页了", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

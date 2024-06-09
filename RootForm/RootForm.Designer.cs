@@ -39,6 +39,7 @@
             SelectButton = new Button();
             UpPage = new Button();
             DownPage = new Button();
+            label1 = new Label();
             Status.SuspendLayout();
             SuspendLayout();
             // 
@@ -121,6 +122,7 @@
             UpPage.TabIndex = 6;
             UpPage.Text = "<";
             UpPage.UseVisualStyleBackColor = true;
+            UpPage.Click += UpPage_Click;
             // 
             // DownPage
             // 
@@ -131,12 +133,24 @@
             DownPage.TabIndex = 7;
             DownPage.Text = ">";
             DownPage.UseVisualStyleBackColor = true;
+            DownPage.Click += DownPage_Click;
+            // 
+            // label1
+            // 
+            label1.Font = new Font("Microsoft YaHei UI", 16F);
+            label1.Location = new Point(474, 623);
+            label1.Name = "label1";
+            label1.Size = new Size(68, 55);
+            label1.TabIndex = 8;
+            label1.Text = "1";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // RootForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 728);
+            Controls.Add(label1);
             Controls.Add(DownPage);
             Controls.Add(UpPage);
             Controls.Add(SelectButton);
@@ -167,5 +181,6 @@
         private Button SelectButton;
         private Button UpPage;
         private Button DownPage;
+        private Label label1;
     }
 }
