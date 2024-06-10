@@ -82,7 +82,7 @@
             // LoginButton
             // 
             LoginButton.Font = new Font("Microsoft YaHei UI", 14F);
-            LoginButton.Location = new Point(128, 312);
+            LoginButton.Location = new Point(128, 343);
             LoginButton.Name = "LoginButton";
             LoginButton.Size = new Size(138, 52);
             LoginButton.TabIndex = 4;
@@ -93,7 +93,7 @@
             // Sign_inButton
             // 
             Sign_inButton.Font = new Font("Microsoft YaHei UI", 14F);
-            Sign_inButton.Location = new Point(411, 312);
+            Sign_inButton.Location = new Point(411, 343);
             Sign_inButton.Name = "Sign_inButton";
             Sign_inButton.Size = new Size(138, 52);
             Sign_inButton.TabIndex = 5;
@@ -103,7 +103,7 @@
             // 
             // ChangePassWord
             // 
-            ChangePassWord.Location = new Point(453, 260);
+            ChangePassWord.Location = new Point(453, 291);
             ChangePassWord.Name = "ChangePassWord";
             ChangePassWord.Size = new Size(96, 34);
             ChangePassWord.TabIndex = 6;
@@ -115,7 +115,7 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = SystemColors.Control;
-            label1.Location = new Point(352, 265);
+            label1.Location = new Point(352, 296);
             label1.Name = "label1";
             label1.Size = new Size(104, 24);
             label1.TabIndex = 7;
