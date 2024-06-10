@@ -14,7 +14,7 @@ namespace Library_management_system.AdminForm
             this.StartPosition = FormStartPosition.CenterScreen;
             this.sql = sql;
         }
-        private void AdminForm_Load(object sender, EventArgs e)
+        private void RootForm_Load(object sender, EventArgs e)
         {
             Timer timer = new Timer();
             timer.Interval = 1000;
@@ -26,6 +26,7 @@ namespace Library_management_system.AdminForm
                 SqlCommand cmd = new SqlCommand("SELECT SUSER_SNAME()", con);
                 Userstatus.Text = "当前用户：" + cmd.ExecuteScalar().ToString();
             }
+            Load_Select(sender, e);
         }
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -33,7 +34,7 @@ namespace Library_management_system.AdminForm
             this.Timenow.Text = now.ToString("HH:mm");
         }
 
-        private async void SelectButton_Click(object sender, EventArgs e)
+        private async void Load_Select(object sender, EventArgs e)
         {
             if (await Pingtest())
             {
@@ -84,7 +85,7 @@ namespace Library_management_system.AdminForm
         private void DownPage_Click(object sender, EventArgs e)
         {
             label1.Text = (Int32.Parse(label1.Text) + 1).ToString();
-            SelectButton_Click(sender, e);
+            Load_Select(sender, e);
         }
 
         private void UpPage_Click(object sender, EventArgs e)
@@ -92,7 +93,7 @@ namespace Library_management_system.AdminForm
             if (Int32.Parse(label1.Text) - 1 > 0)
             {
                 label1.Text = (Int32.Parse(label1.Text) - 1).ToString();
-                SelectButton_Click(sender, e);
+                Load_Select(sender, e);
             }
             else
             {
