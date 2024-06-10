@@ -111,7 +111,6 @@
             SelectButton.TabIndex = 5;
             SelectButton.Text = "搜索";
             SelectButton.UseVisualStyleBackColor = true;
-            SelectButton.Click += SelectButton_Click;
             // 
             // UpPage
             // 
@@ -161,7 +160,7 @@
             MaximizeBox = false;
             Name = "RootForm";
             Text = "后台管理";
-            Load += AdminForm_Load;
+            Load += RootForm_Load;
             Status.ResumeLayout(false);
             Status.PerformLayout();
             ResumeLayout(false);
