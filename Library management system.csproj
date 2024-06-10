@@ -10,16 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SQLini.json" />
+    <None Remove="Lmsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="SQLini.json">
+    <EmbeddedResource Include="Lmsconfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
