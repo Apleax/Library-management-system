@@ -81,6 +81,8 @@ namespace Library_management_system
             public string? UserID { get; set; }
             public string? Password { get; set; }
             public string? PingIp { get; set; }
+
+            public string? SendEmail { get; set; }
         }
     }
 
