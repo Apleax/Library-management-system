@@ -117,7 +117,7 @@ namespace Library_management_system {     public partial class LoginForm : F
             if (e.KeyCode == Keys.Enter)
             {
                 LoginButton_Click(sender, e);
-                e.Handled = true
+                e.Handled = true;
             }
         }
 
