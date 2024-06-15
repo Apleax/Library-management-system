@@ -64,7 +64,7 @@ namespace Library_management_system
         {
             try
             {
-                string json = File.ReadAllText("SQLini.json");
+                string json = File.ReadAllText("Lmsconfig.json");
                 jsonClass jObect = JsonConvert.DeserializeObject<jsonClass>(json);
                 return jObect;
             }
