@@ -68,7 +68,7 @@ namespace Library_management_system {     public partial class LoginForm : F
                 }             }             else             {                 Label l = new Label();                 l.Text = "请输入完整用户名或密码";                 l.Location = new Point(255, 250);                 l.AutoSize = true;                 l.Name = "ErrorLabel";                 l.ForeColor = Color.Red;                 this.Controls.Add(l);             }         }
         private async void Sign_inButton_Click(object sender, EventArgs e)
         {
-            if (UserName.Text != "" && PassWord.Text != "")
+            if (UserName.Text != "" && PassWord.Text != "" && Mailbox.Text != "")
             {
                 if (await Pingtest())
                 {
@@ -77,18 +77,20 @@ namespace Library_management_system {     public partial class LoginForm : F
                         using (SqlConnection con = new SqlConnection($"Data Source={DecryptString(GetJsonObject().DataSource)};Initial Catalog={DecryptString(GetJsonObject().InitialCatalog)};User ID={DecryptString(GetJsonObject().UserID)}; Password={DecryptString(GetJsonObject().Password)}"))
                         {
                             con.Open();
+                            string sql2 = $"use [Library management system];INSERT INTO [User](nickname,mailbox)VALUES('{UserName.Text}','{Mailbox.Text}')";
                             string sql = $"create login {UserName.Text} with password=N'{MD5encipher(PassWord.Text)}';use [Library management system];create user {UserName.Text} for login {UserName.Text};grant select,update on [Book] to {UserName.Text};grant select,update on [User] to {UserName.Text};use master;alter login {UserName.Text} WITH DEFAULT_DATABASE = [Library management system];";
-                            SqlCommand cmd = new SqlCommand(sql, con);
-                            cmd.ExecuteNonQuery();
+                            SqlCommand cmd = new SqlCommand(sql2, con);
+                            if (cmd.ExecuteNonQuery() == 1)
+                            {
+                                cmd.CommandText = sql;
+                                cmd.ExecuteNonQuery();
+                                MessageBox.Show("注册成功");
+                            }
                         }
-                        MessageBox.Show("注册成功");
                     }
                     catch (SqlException ex)
                     {
-                        if (ex.Number == 15025)
-                        {
-                            MessageBox.Show("用户已存在", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        MessageBox.Show("用户已存在", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }                     catch (ArgumentNullException ex)
                     {
                         MessageBox.Show(ex.Message, "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -106,8 +108,8 @@ namespace Library_management_system {     public partial class LoginForm : F
             else
             {
                 Label l = new Label();
-                l.Text = "请输入完整用户名或密码";
-                l.Location = new Point(255, 250);
+                l.Text = "请输入完整用户名或密码和邮箱";
+                l.Location = new Point(255, 340);
                 l.AutoSize = true;
                 l.Name = "ErrorLabel";
                 l.ForeColor = Color.Red;
@@ -117,7 +119,7 @@ namespace Library_management_system {     public partial class LoginForm : F
 
         private void LoginForm_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter && !LoginButton.Focused)
             {
                 LoginButton_Click(sender, e);
                 e.Handled = true;
@@ -135,51 +137,72 @@ namespace Library_management_system {     public partial class LoginForm : F
                         if (UserName.Text != "ROOT" && UserName.Text != "sa")
                         {
                             string Email = Interaction.InputBox("请输入邮箱", "修改密码", "", Screen.PrimaryScreen.WorkingArea.Width / 2 - this.Width / 2, Screen.PrimaryScreen.WorkingArea.Height / 2 - this.Height / 2);
-                            string code = new Random().Next(100000, 999999).ToString();
-                            var message = new MimeMessage();
-                            message.From.Add(new MailboxAddress("Apleax", $"{DecryptString(GetJsonObject().SendEmail)}"));
-                            message.To.Add(new MailboxAddress("收件人", $"{Email}"));
-                            message.Subject = "验证码";
-                            message.Body = new TextPart("plain") { Text = $"您的验证码为：{code}" };
+                            string emailstring = "";
                             try
                             {
-                                using (var client = new SmtpClient())
+                                using (SqlConnection email = new SqlConnection($"Data Source={DecryptString(GetJsonObject().DataSource)};Initial Catalog={DecryptString(GetJsonObject().InitialCatalog)};User ID={DecryptString(GetJsonObject().UserID)}; Password={DecryptString(GetJsonObject().Password)}"))
                                 {
-
-                                    client.Connect("smtp.qq.com", 465, true); // 连接到IMAP服务器
-                                    client.Authenticate($"{DecryptString(GetJsonObject().SendEmail)}", "nypkdgpxybofddji"); // 使用邮箱地址和密码进行身份验证
-
-                                    client.Send(message); // 发送邮件
+                                    email.Open();
+                                    string sql = $"USE [Library management system];SELECT mailbox FROM [User] WHERE mailbox = '{Email}'";
+                                    SqlCommand emailcmd = new SqlCommand(sql, email);
+                                    SqlDataReader reader = emailcmd.ExecuteReader();
+                                    reader.Read();
+                                    emailstring = reader.GetString(0);
                                 }
                             }
-                            catch (SmtpCommandException ex)
+                            catch (InvalidOperationException ex)
                             {
-                                MessageBox.Show("邮箱错误", "验证码发送失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("邮箱错误", "修改密码失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
-                            string Code = Interaction.InputBox("请输入验证码", "修改密码", "", Screen.PrimaryScreen.WorkingArea.Width / 2 - this.Width / 2, Screen.PrimaryScreen.WorkingArea.Height / 2 - this.Height / 2);
-                            if (Code == code)
+                            if (emailstring.Trim().Equals(Email.Trim()))
                             {
+                                string code = new Random().Next(100000, 999999).ToString();
+                                var message = new MimeMessage();
+                                message.From.Add(new MailboxAddress("Apleax", $"{DecryptString(GetJsonObject().SendEmail)}"));
+                                message.To.Add(new MailboxAddress("收件人", $"{Email}"));
+                                message.Subject = "验证码";
+                                message.Body = new TextPart("plain") { Text = $"您的验证码为：{code}" };
+                                try
                                 {
-                                    using (SqlConnection con = new SqlConnection($"Data Source={DecryptString(GetJsonObject().DataSource)};Initial Catalog={DecryptString(GetJsonObject().InitialCatalog)};User ID={DecryptString(GetJsonObject().UserID)}; Password={DecryptString(GetJsonObject().Password)}"))
+                                    using (var client = new SmtpClient())
                                     {
-                                        con.Open();
-                                        string sql = $"ALTER LOGIN {UserName.Text} WITH PASSWORD = '{MD5encipher(PassWord.Text)}'";
-                                        SqlCommand cmd = new SqlCommand(sql, con);
-                                        cmd.ExecuteNonQuery();
+
+                                        client.Connect("smtp.qq.com", 465, true);
+                                        client.Authenticate($"{DecryptString(GetJsonObject().SendEmail)}", "nypkdgpxybofddji");
+                                        client.Send(message);
                                     }
-                                    MessageBox.Show("密码修改成功,即将将重启应用");
-                                    Process process = new Process();
-                                    process.Close();
-                                    Application.Restart();
+                                }
+                                catch (SmtpCommandException ex)
+                                {
+                                    MessageBox.Show("邮箱错误", "验证码发送失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                string Code = Interaction.InputBox("请输入验证码", "修改密码", "", Screen.PrimaryScreen.WorkingArea.Width / 2 - this.Width / 2, Screen.PrimaryScreen.WorkingArea.Height / 2 - this.Height / 2);
+                                if (Code == code)
+                                {
+                                    {
+                                        using (SqlConnection con = new SqlConnection($"Data Source={DecryptString(GetJsonObject().DataSource)};Initial Catalog={DecryptString(GetJsonObject().InitialCatalog)};User ID={DecryptString(GetJsonObject().UserID)}; Password={DecryptString(GetJsonObject().Password)}"))
+                                        {
+                                            con.Open();
+                                            string sql = $"ALTER LOGIN {UserName.Text} WITH PASSWORD = '{MD5encipher(PassWord.Text)}'";
+                                            SqlCommand cmd = new SqlCommand(sql, con);
+                                            cmd.ExecuteNonQuery();
+                                        }
+                                        MessageBox.Show("密码修改成功,即将将重启应用");
+                                        Process process = new Process();
+                                        process.Close();
+                                        Application.Restart();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("验证码错误，请重试", "修改密码", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
-                            else
-                            {
-                                MessageBox.Show("验证码错误，请重试", "修改密码", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
+                            else { MessageBox.Show("邮箱错误", "修改密码失败", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                         }
-                        else { 
-                        MessageBox.Show("您无权修改密码");
+                        else
+                        {
+                            MessageBox.Show("您无权修改密码");
                         }
                     }
                     catch (SqlException ex)
