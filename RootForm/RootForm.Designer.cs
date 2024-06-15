@@ -39,7 +39,8 @@
             SelectButton = new Button();
             UpPage = new Button();
             DownPage = new Button();
-            label1 = new Label();
+            Page = new Label();
+            SelectBooknameBox = new TextBox();
             Status.SuspendLayout();
             SuspendLayout();
             // 
@@ -105,12 +106,13 @@
             // SelectButton
             // 
             SelectButton.Font = new Font("Microsoft YaHei UI", 12F);
-            SelectButton.Location = new Point(1002, 76);
+            SelectButton.Location = new Point(1002, 123);
             SelectButton.Name = "SelectButton";
             SelectButton.Size = new Size(152, 68);
             SelectButton.TabIndex = 5;
             SelectButton.Text = "搜索";
             SelectButton.UseVisualStyleBackColor = true;
+            SelectButton.Click += SelectButton_Click;
             // 
             // UpPage
             // 
@@ -134,22 +136,31 @@
             DownPage.UseVisualStyleBackColor = true;
             DownPage.Click += DownPage_Click;
             // 
-            // label1
+            // Page
             // 
-            label1.Font = new Font("Microsoft YaHei UI", 16F);
-            label1.Location = new Point(474, 623);
-            label1.Name = "label1";
-            label1.Size = new Size(68, 55);
-            label1.TabIndex = 8;
-            label1.Text = "1";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            Page.Font = new Font("Microsoft YaHei UI", 16F);
+            Page.Location = new Point(474, 623);
+            Page.Name = "Page";
+            Page.Size = new Size(68, 55);
+            Page.TabIndex = 8;
+            Page.Text = "1";
+            Page.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // SelectBooknameBox
+            // 
+            SelectBooknameBox.Font = new Font("Microsoft YaHei UI", 13F);
+            SelectBooknameBox.Location = new Point(1002, 76);
+            SelectBooknameBox.Name = "SelectBooknameBox";
+            SelectBooknameBox.Size = new Size(152, 41);
+            SelectBooknameBox.TabIndex = 9;
             // 
             // RootForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 728);
-            Controls.Add(label1);
+            Controls.Add(SelectBooknameBox);
+            Controls.Add(Page);
             Controls.Add(DownPage);
             Controls.Add(UpPage);
             Controls.Add(SelectButton);
@@ -180,6 +191,7 @@
         private Button SelectButton;
         private Button UpPage;
         private Button DownPage;
-        private Label label1;
+        private Label Page;
+        private TextBox SelectBooknameBox;
     }
 }
