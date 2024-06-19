@@ -1,12 +1,13 @@
-﻿using System.Data.SqlClient;
-using static Library_management_system.Login_Sign_in;
+﻿using Library_management_system.RootForm;
+using System.Data.SqlClient;
 using Timer = System.Windows.Forms.Timer;
+
 
 namespace Library_management_system.AdminForm
 {
     public partial class RootForm : Form
     {
-        string sql;
+        readonly string sql;
         int boun;
         bool flag = true;
         public RootForm(string sql)
@@ -19,7 +20,7 @@ namespace Library_management_system.AdminForm
         {
             Timer timer = new Timer();
             timer.Interval = 1000;
-            timer.Tick += new EventHandler(timer_Tick);
+            timer.Tick += new EventHandler(Timer_Tick);
             timer.Start();
             using (SqlConnection con = new SqlConnection(sql))
             {
@@ -29,7 +30,7 @@ namespace Library_management_system.AdminForm
             }
             Load_Select(sender, e);
         }
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             DateTime now = DateTime.Now;
             this.Timenow.Text = now.ToString("HH:mm");
@@ -59,14 +60,14 @@ namespace Library_management_system.AdminForm
                                     book.Add(sqlData.GetValue(i).ToString());
                                 }
                                 Result.Items.Add(new ListViewItem(book.ToArray()));
-                                flag = false;
+                                flag = true;
                             }
                             else
                             {
                                 Page.Text = (Int32.Parse(Page.Text) - 1).ToString();
                                 MessageBox.Show("已经是最后一页了", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 boun = 1;
-                                flag = true;
+                                flag = false;
                             }
                         }
                         boun = 0;
@@ -147,7 +148,9 @@ namespace Library_management_system.AdminForm
                 Page.Text = (Int32.Parse(Page.Text) + 1).ToString();
                 if (boun == 0)
                 {
+                    flag = false;
                     SelectButton_Click(sender, e);
+                    flag = true;
                 }
             }
         }
@@ -185,6 +188,89 @@ namespace Library_management_system.AdminForm
                 {
                     MessageBox.Show("已经是第一页了", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+        }
+
+        private void Del_Button_Click(object sender, EventArgs e)
+        {
+            if (SelectBooknameBox.Text == "")
+            {
+                if (Result.SelectedItems.Count > 0)
+                {
+                    DialogResult result = MessageBox.Show("确定要删除吗？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        using (SqlConnection con = new SqlConnection(sql))
+                        {
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand($"USE [Library management system];DELETE FROM Book WHERE Bookname = '{Result.SelectedItems[0].SubItems[0].Text}'", con);
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("删除成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Result.Items.Clear();
+                            Load_Select(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("请先选择要删除的书籍", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                if (Result.SelectedItems.Count > 0)
+                {
+                    DialogResult result = MessageBox.Show("确定要删除吗？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        using (SqlConnection con = new SqlConnection(sql))
+                        {
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand($"USE [Library management system];DELETE FROM Book WHERE Bookname = '{Result.SelectedItems[0].SubItems[0].Text}'", con);
+                            cmd.ExecuteNonQuery();
+                            MessageBox.Show("删除成功", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Result.Items.Clear();
+                            SelectButton_Click(sender, e);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("请先选择要删除的书籍", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void Add_BookButton_Click(object sender, EventArgs e)
+        {
+            AddBook addBook = new AddBook(sql);
+            addBook.Show();
+            addBook.FormClosed += (s, args) =>
+            {
+                Result.Items.Clear();
+                Load_Select(sender, e);
+            };
+        }
+
+        private void UpdateButton_Click(object sender, EventArgs e)
+        {
+            string Bookname;
+            string Author;
+            try
+            {
+                Bookname = Result.SelectedItems[0].SubItems[0].Text;
+                Author = Result.SelectedItems[0].SubItems[1].Text;
+                UpdateBook update = new UpdateBook(sql, Bookname, Author);
+                update.Show();
+                update.FormClosed += (s, args) =>
+                {
+                    Result.Items.Clear();
+                    Load_Select(sender, e);
+                };
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                MessageBox.Show("请先选择要修改的书籍", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

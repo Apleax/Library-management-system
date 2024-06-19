@@ -41,6 +41,9 @@
             DownPage = new Button();
             Page = new Label();
             SelectBooknameBox = new TextBox();
+            Del_Button = new Button();
+            Add_BookButton = new Button();
+            UpdateButton = new Button();
             Status.SuspendLayout();
             SuspendLayout();
             // 
@@ -154,11 +157,47 @@
             SelectBooknameBox.Size = new Size(152, 41);
             SelectBooknameBox.TabIndex = 9;
             // 
+            // Del_Button
+            // 
+            Del_Button.Font = new Font("Microsoft YaHei UI", 12F);
+            Del_Button.Location = new Point(1002, 239);
+            Del_Button.Name = "Del_Button";
+            Del_Button.Size = new Size(152, 68);
+            Del_Button.TabIndex = 10;
+            Del_Button.Text = "删除选中项";
+            Del_Button.UseVisualStyleBackColor = true;
+            Del_Button.Click += Del_Button_Click;
+            // 
+            // Add_BookButton
+            // 
+            Add_BookButton.Font = new Font("Microsoft YaHei UI", 12F);
+            Add_BookButton.Location = new Point(1002, 351);
+            Add_BookButton.Name = "Add_BookButton";
+            Add_BookButton.Size = new Size(152, 68);
+            Add_BookButton.TabIndex = 11;
+            Add_BookButton.Text = "添加书籍";
+            Add_BookButton.UseVisualStyleBackColor = true;
+            Add_BookButton.Click += Add_BookButton_Click;
+            // 
+            // UpdateButton
+            // 
+            UpdateButton.Font = new Font("Microsoft YaHei UI", 12F);
+            UpdateButton.Location = new Point(1002, 466);
+            UpdateButton.Name = "UpdateButton";
+            UpdateButton.Size = new Size(152, 68);
+            UpdateButton.TabIndex = 12;
+            UpdateButton.Text = "修改信息";
+            UpdateButton.UseVisualStyleBackColor = true;
+            UpdateButton.Click += UpdateButton_Click;
+            // 
             // RootForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 728);
+            Controls.Add(UpdateButton);
+            Controls.Add(Add_BookButton);
+            Controls.Add(Del_Button);
             Controls.Add(SelectBooknameBox);
             Controls.Add(Page);
             Controls.Add(DownPage);
@@ -193,5 +232,8 @@
         private Button DownPage;
         private Label Page;
         private TextBox SelectBooknameBox;
+        private Button Del_Button;
+        private Button Add_BookButton;
+        private Button UpdateButton;
     }
 }
