@@ -8,7 +8,7 @@ using static Library_management_system.Login_Sign_in;
 namespace Library_management_system {     public partial class LoginForm : Form     {         public LoginForm()         {             InitializeComponent();             this.StartPosition = FormStartPosition.CenterScreen;         }
         private void Text_changed(object sender, EventArgs e)
         {
-            if (UserName.Text != "" || PassWord.Text != "")
+            if (UserName.Text != "" || PassWord.Text != "" || Mailbox.Text != "")
             {
                 foreach (Control c in this.Controls)
                 {
@@ -88,7 +88,7 @@ namespace Library_management_system {     public partial class LoginForm : F
                             }
                         }
                     }
-                    catch (SqlException ex)
+                    catch (SqlException)
                     {
                         MessageBox.Show("用户已存在", "注册失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }                     catch (ArgumentNullException ex)
@@ -150,7 +150,7 @@ namespace Library_management_system {     public partial class LoginForm : F
                                     emailstring = reader.GetString(0);
                                 }
                             }
-                            catch (InvalidOperationException ex)
+                            catch (InvalidOperationException)
                             {
                                 MessageBox.Show("邮箱错误", "修改密码失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
@@ -172,7 +172,7 @@ namespace Library_management_system {     public partial class LoginForm : F
                                         client.Send(message);
                                     }
                                 }
-                                catch (SmtpCommandException ex)
+                                catch (SmtpCommandException)
                                 {
                                     MessageBox.Show("邮箱错误", "验证码发送失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }

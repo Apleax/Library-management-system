@@ -141,6 +141,7 @@
             Mailbox.Name = "Mailbox";
             Mailbox.Size = new Size(336, 43);
             Mailbox.TabIndex = 9;
+            Mailbox.TextChanged += Text_changed;
             // 
             // LoginForm
             // 
