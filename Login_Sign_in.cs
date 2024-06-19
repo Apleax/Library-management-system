@@ -47,13 +47,12 @@ namespace Library_management_system
             try
             {
                 Ping ping = new Ping();
-                int timeout = 3000;
+                int timeout = 1000;
                 PingReply reply = await ping.SendPingAsync($"{DecryptString(GetJsonObject().PingIp)}", timeout);
                 if (reply.Status == IPStatus.Success)
-                {
                     return true;
-                }
-                return false;
+                else
+                    return false;
             }
             catch (PingException)
             {
