@@ -44,19 +44,26 @@ namespace Library_management_system.RootForm
                 string[] book = GetArray();
                 try
                 {
-                    using (SqlConnection con = new SqlConnection(sql))
+
+                    if (Int32.Parse(book[3]) > 0)
                     {
-                        con.Open();
-                        SqlCommand cmd = new SqlCommand("USE [Library management system];INSERT INTO Book (Bookname, Author, Booktype, Booknum) VALUES (@Bookname, @Author, @Booktype, @Booknum)", con);
-                        cmd.Parameters.AddWithValue("@Bookname", book[0]);
-                        cmd.Parameters.AddWithValue("@Author", book[1]);
-                        cmd.Parameters.AddWithValue("@Booktype", book[2]);
-                        cmd.Parameters.AddWithValue("@Booknum", Int32.Parse(book[3]));
-                        cmd.ExecuteNonQuery();
-                        con.Close();
+                        using (SqlConnection con = new SqlConnection(sql))
+                        {
+                            con.Open();
+                            SqlCommand cmd = new SqlCommand("USE [Library management system];INSERT INTO Book (Bookname, Author, Booktype, Booknum) VALUES (@Bookname, @Author, @Booktype, @Booknum)", con);
+                            cmd.Parameters.AddWithValue("@Bookname", book[0]);
+                            cmd.Parameters.AddWithValue("@Author", book[1]);
+                            cmd.Parameters.AddWithValue("@Booktype", book[2]);
+                            cmd.Parameters.AddWithValue("@Booknum", Int32.Parse(book[3])); cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                        MessageBox.Show("添加成功");
+                        this.Close();
                     }
-                    MessageBox.Show("添加成功");
-                    this.Close();
+                    else
+                    {
+                        MessageBox.Show("数量不可小于1");
+                    }
                 }
                 catch (SqlException)
                 {
