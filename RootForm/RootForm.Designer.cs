@@ -44,6 +44,7 @@
             Del_Button = new Button();
             Add_BookButton = new Button();
             UpdateButton = new Button();
+            Refresh = new Button();
             Status.SuspendLayout();
             SuspendLayout();
             // 
@@ -190,11 +191,22 @@
             UpdateButton.UseVisualStyleBackColor = true;
             UpdateButton.Click += UpdateButton_Click;
             // 
+            // Refresh
+            // 
+            Refresh.Location = new Point(1024, 583);
+            Refresh.Name = "Refresh";
+            Refresh.Size = new Size(112, 34);
+            Refresh.TabIndex = 13;
+            Refresh.Text = "刷新(F5)";
+            Refresh.UseVisualStyleBackColor = true;
+            Refresh.Click += Refresh_Click;
+            // 
             // RootForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 728);
+            Controls.Add(Refresh);
             Controls.Add(UpdateButton);
             Controls.Add(Add_BookButton);
             Controls.Add(Del_Button);
@@ -207,10 +219,12 @@
             Controls.Add(Result);
             Controls.Add(Status);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            KeyPreview = true;
             MaximizeBox = false;
             Name = "RootForm";
             Text = "后台管理";
             Load += RootForm_Load;
+            KeyUp += RootForm_KeyUp;
             Status.ResumeLayout(false);
             Status.PerformLayout();
             ResumeLayout(false);
@@ -235,5 +249,6 @@
         private Button Del_Button;
         private Button Add_BookButton;
         private Button UpdateButton;
+        private Button Refresh;
     }
 }
