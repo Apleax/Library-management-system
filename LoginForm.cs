@@ -29,7 +29,7 @@ namespace Library_management_system {     public partial class LoginForm : F
                         con.Open();
                         if (UserName.Text != "ROOT" && UserName.Text != "sa")
                         {
-                            UserForm.UserForm userForm = new UserForm.UserForm();
+                            UserForm.UserForm userForm = new UserForm.UserForm(sql, UserName.Text);
                             userForm.Show();
                             this.Hide();
                             userForm.FormClosing += (s, args) =>
@@ -77,8 +77,8 @@ namespace Library_management_system {     public partial class LoginForm : F
                         using (SqlConnection con = new SqlConnection($"Data Source={DecryptString(GetJsonObject().DataSource)};Initial Catalog={DecryptString(GetJsonObject().InitialCatalog)};User ID={DecryptString(GetJsonObject().UserID)}; Password={DecryptString(GetJsonObject().Password)}"))
                         {
                             con.Open();
-                            string sql2 = $"use [Library management system];INSERT INTO [User](nickname,mailbox)VALUES('{UserName.Text}','{Mailbox.Text}')";
-                            string sql = $"create login {UserName.Text} with password=N'{MD5encipher(PassWord.Text)}';use [Library management system];create user {UserName.Text} for login {UserName.Text};grant select,update on [Book] to {UserName.Text};grant select,update on [User] to {UserName.Text};use master;alter login {UserName.Text} WITH DEFAULT_DATABASE = [Library management system];";
+                            string sql2 = $"use [Library management system];INSERT INTO [User](nickname,mailbox,Username)VALUES('{UserName.Text}','{Mailbox.Text}','{UserName.Text}')";
+                            string sql = $"create login [{UserName.Text}] with password=N'{MD5encipher(PassWord.Text)}';use [Library management system];create user [{UserName.Text}] for login [{UserName.Text}];grant select,update on [Book] to [{UserName.Text}];grant select,update on [User] to [{UserName.Text}];use master;alter login [{UserName.Text}] WITH DEFAULT_DATABASE = [Library management system];";
                             SqlCommand cmd = new SqlCommand(sql2, con);
                             if (cmd.ExecuteNonQuery() == 1)
                             {
