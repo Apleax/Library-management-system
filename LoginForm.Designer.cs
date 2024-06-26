@@ -36,15 +36,14 @@
             Sign_inButton = new Button();
             ChangePassWord = new Button();
             label1 = new Label();
-            Mailboxlabel = new Label();
-            Mailbox = new TextBox();
+            Tag = new Label();
             SuspendLayout();
             // 
             // User_Namelabel
             // 
             User_Namelabel.AutoSize = true;
             User_Namelabel.Font = new Font("Microsoft YaHei UI", 14F);
-            User_Namelabel.Location = new Point(109, 180);
+            User_Namelabel.Location = new Point(112, 71);
             User_Namelabel.Name = "User_Namelabel";
             User_Namelabel.Size = new Size(99, 36);
             User_Namelabel.TabIndex = 0;
@@ -54,7 +53,7 @@
             // 
             Pass_Wordlabel.AutoSize = true;
             Pass_Wordlabel.Font = new Font("Microsoft YaHei UI", 14F);
-            Pass_Wordlabel.Location = new Point(109, 279);
+            Pass_Wordlabel.Location = new Point(112, 170);
             Pass_Wordlabel.Name = "Pass_Wordlabel";
             Pass_Wordlabel.Size = new Size(95, 36);
             Pass_Wordlabel.TabIndex = 1;
@@ -63,7 +62,7 @@
             // UserName
             // 
             UserName.Font = new Font("Microsoft YaHei UI", 14F);
-            UserName.Location = new Point(236, 177);
+            UserName.Location = new Point(239, 68);
             UserName.MaxLength = 20;
             UserName.Name = "UserName";
             UserName.Size = new Size(336, 43);
@@ -73,7 +72,7 @@
             // PassWord
             // 
             PassWord.Font = new Font("Microsoft YaHei UI", 14F);
-            PassWord.Location = new Point(236, 276);
+            PassWord.Location = new Point(239, 167);
             PassWord.MaxLength = 16;
             PassWord.Name = "PassWord";
             PassWord.PasswordChar = '*';
@@ -83,32 +82,36 @@
             // 
             // LoginButton
             // 
-            LoginButton.Font = new Font("Microsoft YaHei UI", 14F);
-            LoginButton.Location = new Point(126, 422);
+            LoginButton.Font = new Font("Microsoft YaHei UI", 16F);
+            LoginButton.Location = new Point(156, 313);
             LoginButton.Name = "LoginButton";
-            LoginButton.Size = new Size(138, 52);
+            LoginButton.Size = new Size(237, 72);
             LoginButton.TabIndex = 4;
+            LoginButton.TabStop = false;
             LoginButton.Text = "登录";
             LoginButton.UseVisualStyleBackColor = true;
             LoginButton.Click += LoginButton_Click;
             // 
             // Sign_inButton
             // 
-            Sign_inButton.Font = new Font("Microsoft YaHei UI", 14F);
-            Sign_inButton.Location = new Point(409, 422);
+            Sign_inButton.FlatStyle = FlatStyle.Popup;
+            Sign_inButton.Font = new Font("Microsoft YaHei UI", 9F);
+            Sign_inButton.Location = new Point(541, 335);
             Sign_inButton.Name = "Sign_inButton";
-            Sign_inButton.Size = new Size(138, 52);
+            Sign_inButton.Size = new Size(76, 40);
             Sign_inButton.TabIndex = 5;
+            Sign_inButton.TabStop = false;
             Sign_inButton.Text = "注册";
             Sign_inButton.UseVisualStyleBackColor = true;
             Sign_inButton.Click += Sign_inButton_Click;
             // 
             // ChangePassWord
             // 
-            ChangePassWord.Location = new Point(451, 370);
+            ChangePassWord.Location = new Point(454, 261);
             ChangePassWord.Name = "ChangePassWord";
             ChangePassWord.Size = new Size(96, 34);
             ChangePassWord.TabIndex = 6;
+            ChangePassWord.TabStop = false;
             ChangePassWord.Text = "修改密码";
             ChangePassWord.UseVisualStyleBackColor = true;
             ChangePassWord.Click += ChangePassWord_Click;
@@ -117,39 +120,27 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = SystemColors.Control;
-            label1.Location = new Point(327, 375);
+            label1.Location = new Point(330, 266);
             label1.Name = "label1";
             label1.Size = new Size(104, 24);
             label1.TabIndex = 7;
             label1.Text = "忘记密码？:";
             // 
-            // Mailboxlabel
+            // Tag
             // 
-            Mailboxlabel.AutoSize = true;
-            Mailboxlabel.Font = new Font("Microsoft YaHei UI", 14F);
-            Mailboxlabel.Location = new Point(109, 76);
-            Mailboxlabel.Name = "Mailboxlabel";
-            Mailboxlabel.Size = new Size(95, 36);
-            Mailboxlabel.TabIndex = 8;
-            Mailboxlabel.Text = "邮   箱";
-            // 
-            // Mailbox
-            // 
-            Mailbox.Font = new Font("Microsoft YaHei UI", 14F);
-            Mailbox.Location = new Point(236, 76);
-            Mailbox.MaxLength = 20;
-            Mailbox.Name = "Mailbox";
-            Mailbox.Size = new Size(336, 43);
-            Mailbox.TabIndex = 9;
-            Mailbox.TextChanged += Text_changed;
+            Tag.AutoSize = true;
+            Tag.Location = new Point(399, 343);
+            Tag.Name = "Tag";
+            Tag.Size = new Size(136, 24);
+            Tag.TabIndex = 8;
+            Tag.Text = "没有帐号？立即";
             // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(671, 525);
-            Controls.Add(Mailbox);
-            Controls.Add(Mailboxlabel);
+            ClientSize = new Size(671, 425);
+            Controls.Add(Tag);
             Controls.Add(label1);
             Controls.Add(ChangePassWord);
             Controls.Add(Sign_inButton);
@@ -178,7 +169,6 @@
         private Button Sign_inButton;
         private Button ChangePassWord;
         private Label label1;
-        private Label Mailboxlabel;
-        private TextBox Mailbox;
+        private Label Tag;
     }
 }
