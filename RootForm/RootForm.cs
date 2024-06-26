@@ -304,5 +304,16 @@ namespace Library_management_system.AdminForm
                 SelectButton_Click(sender, e);
             }
         }
+
+        private void Account_Click(object sender, EventArgs e)
+        {
+            UserManage manage = new UserManage(sql);
+            manage.Show();
+            this.Hide();
+            manage.FormClosed += (s, args) =>
+            {
+                this.Show();
+            };
+        }
     }
 }

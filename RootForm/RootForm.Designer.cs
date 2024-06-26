@@ -45,6 +45,7 @@
             Add_BookButton = new Button();
             UpdateButton = new Button();
             Refresh = new Button();
+            Account = new Button();
             Status.SuspendLayout();
             SuspendLayout();
             // 
@@ -201,11 +202,23 @@
             Refresh.UseVisualStyleBackColor = true;
             Refresh.Click += Refresh_Click;
             // 
+            // Account
+            // 
+            Account.Font = new Font("Microsoft YaHei UI", 12F);
+            Account.Location = new Point(844, 623);
+            Account.Name = "Account";
+            Account.Size = new Size(152, 55);
+            Account.TabIndex = 14;
+            Account.Text = "用户管理";
+            Account.UseVisualStyleBackColor = true;
+            Account.Click += Account_Click;
+            // 
             // RootForm
             // 
             AutoScaleDimensions = new SizeF(11F, 24F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1166, 728);
+            Controls.Add(Account);
             Controls.Add(Refresh);
             Controls.Add(UpdateButton);
             Controls.Add(Add_BookButton);
@@ -250,5 +263,6 @@
         private Button Add_BookButton;
         private Button UpdateButton;
         private Button Refresh;
+        private Button Account;
     }
 }
